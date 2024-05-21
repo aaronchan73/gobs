@@ -9,3 +9,7 @@ Lightweight, minimalist observability library for distributed systems.
 
 ## Traces
 - TODO
+
+## Resources
+https://www.splunk.com/en_us/blog/learn/observability.html
+https://www.datadoghq.com/three-pillars-of-observability/
