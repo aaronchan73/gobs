@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Log is a single message with a timestamp
 type Log struct {
 	timestamp time.Time
 	message   string
