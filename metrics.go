@@ -23,8 +23,8 @@ type Histogram struct {
 	lock    *sync.RWMutex
 }
 
-// createCounter creates a Counter
-func createCounter() *Counter {
+// CreateCounter creates a Counter
+func CreateCounter() *Counter {
 	counter := Counter{
 		0,
 		&sync.RWMutex{},
@@ -33,24 +33,24 @@ func createCounter() *Counter {
 	return &counter
 }
 
-// incrementCounter increments an existing Counter
-func (counter *Counter) incrementCounter() {
+// IncrementCounter increments an existing Counter
+func (counter *Counter) IncrementCounter() {
 	counter.lock.Lock()
 	defer counter.lock.Unlock()
 
 	counter.count++
 }
 
-// printCounter prints an existing Counter
-func (counter *Counter) printCounter() {
+// PrintCounter prints an existing Counter
+func (counter *Counter) PrintCounter() {
 	counter.lock.RLock()
 	defer counter.lock.RUnlock()
 
 	fmt.Println(counter.count)
 }
 
-// createGauge creates a Gauge
-func createGauge() *Gauge {
+// CreateGauge creates a Gauge
+func CreateGauge() *Gauge {
 	gauge := Gauge{
 		0,
 		&sync.RWMutex{},
@@ -59,24 +59,24 @@ func createGauge() *Gauge {
 	return &gauge
 }
 
-// updateGauge updates an existing Counter
-func (gauge *Gauge) updateGauge(value int64) {
+// UpdateGauge updates an existing Counter
+func (gauge *Gauge) UpdateGauge(value int64) {
 	gauge.lock.Lock()
 	defer gauge.lock.Unlock()
 
 	gauge.value = value
 }
 
-// printGauge prints an existing Gauge
-func (gauge *Gauge) printGauge() {
+// PrintGauge prints an existing Gauge
+func (gauge *Gauge) PrintGauge() {
 	gauge.lock.RLock()
 	defer gauge.lock.RUnlock()
 
 	fmt.Println(gauge.value)
 }
 
-// createHistogram creates a Histogram
-func createHistogram() *Histogram {
+// CreateHistogram creates a Histogram
+func CreateHistogram() *Histogram {
 	histogram := Histogram{
 		make(map[int64]int64),
 		&sync.RWMutex{},
@@ -85,8 +85,8 @@ func createHistogram() *Histogram {
 	return &histogram
 }
 
-// updateHistogram updates an existing Histogram
-func (histogram *Histogram) updateHistogram(value int64) {
+// UpdateHistogram updates an existing Histogram
+func (histogram *Histogram) UpdateHistogram(value int64) {
 	histogram.lock.Lock()
 	defer histogram.lock.Unlock()
 
@@ -97,8 +97,8 @@ func (histogram *Histogram) updateHistogram(value int64) {
 	}
 }
 
-// printHistogram prints an existing Histogram
-func (histogram *Histogram) printHistogram() {
+// PrintHistogram prints an existing Histogram
+func (histogram *Histogram) PrintHistogram() {
 	histogram.lock.RLock()
 	defer histogram.lock.RUnlock()
 

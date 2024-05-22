@@ -18,8 +18,8 @@ type Trace struct {
 	lock  *sync.RWMutex
 }
 
-// createSpan creates a Span
-func createSpan(event string, duration time.Duration) Span {
+// CreateSpan creates a Span
+func CreateSpan(event string, duration time.Duration) Span {
 	span := Span{
 		duration,
 		event,
@@ -28,14 +28,14 @@ func createSpan(event string, duration time.Duration) Span {
 	return span
 }
 
-// printSpan prints a Span
-func printSpan(span Span) {
+// PrintSpan prints a Span
+func PrintSpan(span Span) {
 	spanString := fmt.Sprintf("%s: %d ms\n", span.event, span.duration.Milliseconds())
 	fmt.Println(spanString)
 }
 
-// createTrace creates a Trace
-func createTrace() *Trace {
+// CreateTrace creates a Trace
+func CreateTrace() *Trace {
 	trace := Trace{
 		make([]Span, 0),
 		&sync.RWMutex{},
@@ -44,20 +44,20 @@ func createTrace() *Trace {
 	return &trace
 }
 
-// updateTrace updates an existing Trace
-func (trace *Trace) updateTrace(span Span) {
+// UpdateTrace updates an existing Trace
+func (trace *Trace) UpdateTrace(span Span) {
 	trace.lock.Lock()
 	defer trace.lock.Unlock()
 
 	trace.spans = append(trace.spans, span)
 }
 
-// printTrace prints an existing Trace
-func (trace *Trace) printTrace() {
+// PrintTrace prints an existing Trace
+func (trace *Trace) PrintTrace() {
 	trace.lock.RLock()
 	defer trace.lock.RUnlock()
 
 	for _, span := range trace.spans {
-		printSpan(span)
+		PrintSpan(span)
 	}
 }

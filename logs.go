@@ -11,8 +11,8 @@ type Log struct {
 	message   string
 }
 
-// createLog creates a Log
-func createLog(message string) Log {
+// CreateLog creates a Log
+func CreateLog(message string) Log {
 	log := Log{
 		time.Now(),
 		message,
@@ -21,8 +21,8 @@ func createLog(message string) Log {
 	return log
 }
 
-// printLog prints a log
-func printLog(log Log) {
+// PrintLog prints a log
+func PrintLog(log Log) {
 	logString := log.timestamp.Format(time.TimeOnly) + log.message
 	fmt.Println(logString)
 }
