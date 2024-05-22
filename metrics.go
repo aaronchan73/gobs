@@ -12,7 +12,7 @@ type Counter struct {
 }
 
 // createCounter creates a Counter
-func createCounter(message string) *Counter {
+func createCounter() *Counter {
 	counter := Counter{
 		0,
 		&sync.RWMutex{},
