@@ -2,13 +2,13 @@
 Lightweight, minimalist observability library for distributed systems.
 
 ## Logs
-- TODO
+- Found in `logs.go`
 
 ## Metrics
-- TODO
+- Found in `metrics.go`
 
 ## Traces
-- TODO
+- Found in `traces.go`
 
 ## Resources
 - https://www.splunk.com/en_us/blog/learn/observability.html
