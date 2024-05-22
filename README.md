@@ -1,5 +1,5 @@
 # Gobs
-Lightweight, minimalist observability library for distributed systems.
+Lightweight and minimalist observability for distributed systems.
 
 ## Logs
 - Found in `logs.go`
