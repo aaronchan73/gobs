@@ -2,7 +2,9 @@ package main
 
 import (
 	"gobs"
+	"math/rand"
 	"sync"
+	"time"
 )
 
 var counter *gobs.Counter = gobs.CreateCounter()
@@ -14,6 +16,7 @@ func main() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
+			time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 			counter.IncrementCounter()
 			counter.PrintCounter()
 		}()
