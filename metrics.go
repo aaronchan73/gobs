@@ -17,6 +17,12 @@ type Gauge struct {
 	lock  *sync.RWMutex
 }
 
+// Histogram is a range of values
+type Histogram struct {
+	buckets map[int64]int64
+	lock    *sync.RWMutex
+}
+
 // createCounter creates a Counter
 func createCounter() *Counter {
 	counter := Counter{
@@ -67,4 +73,37 @@ func (gauge *Gauge) printGauge() {
 	defer gauge.lock.RUnlock()
 
 	fmt.Println(gauge.value)
+}
+
+// createHistogram creates a Histogram
+func createHistogram() *Histogram {
+	histogram := Histogram{
+		make(map[int64]int64),
+		&sync.RWMutex{},
+	}
+
+	return &histogram
+}
+
+// updateHistogram updates an existing Histogram
+func (histogram *Histogram) updateHistogram(value int64) {
+	histogram.lock.Lock()
+	defer histogram.lock.Unlock()
+
+	if count, ok := histogram.buckets[value]; ok {
+		histogram.buckets[value] = count + 1
+	} else {
+		histogram.buckets[value] = 1
+	}
+}
+
+// printHistogram prints an existing Histogram
+func (histogram *Histogram) printHistogram() {
+	histogram.lock.RLock()
+	defer histogram.lock.RUnlock()
+
+	for value, count := range histogram.buckets {
+		bucket := fmt.Sprintf("%d: %d\n", value, count)
+		fmt.Println(bucket)
+	}
 }
