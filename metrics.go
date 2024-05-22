@@ -11,6 +11,12 @@ type Counter struct {
 	lock  *sync.RWMutex
 }
 
+// Gauge is a single numerical value
+type Gauge struct {
+	value int64
+	lock  *sync.RWMutex
+}
+
 // createCounter creates a Counter
 func createCounter() *Counter {
 	counter := Counter{
@@ -35,4 +41,30 @@ func (counter *Counter) printCounter() {
 	defer counter.lock.RUnlock()
 
 	fmt.Println(counter.count)
+}
+
+// createGauge creates a Gauge
+func createGauge() *Gauge {
+	gauge := Gauge{
+		0,
+		&sync.RWMutex{},
+	}
+
+	return &gauge
+}
+
+// updateGauge updates an existing Counter
+func (gauge *Gauge) updateGauge(value int64) {
+	gauge.lock.Lock()
+	defer gauge.lock.Unlock()
+
+	gauge.value = value
+}
+
+// printGauge prints an existing Gauge
+func (gauge *Gauge) printGauge() {
+	gauge.lock.RLock()
+	defer gauge.lock.RUnlock()
+
+	fmt.Println(gauge.value)
 }
