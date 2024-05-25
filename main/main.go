@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"math/rand"
+	"net/http"
 	"sync"
 	"time"
 
@@ -24,4 +27,15 @@ func main() {
 	}
 
 	wg.Wait()
+
+	postBody, _ := json.Marshal(map[string]int64{
+		"id":    counter.ID,
+		"count": counter.Count,
+	})
+	responseBody := bytes.NewBuffer(postBody)
+
+	requestURL := "http://localhost:8080/counters"
+	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
+		panic(err)
+	}
 }
