@@ -16,7 +16,7 @@ Lightweight and minimalist observability for distributed systems.
 - Supports spans and traces
 
 ## Testing
-![arch](https://github.com/aaronchan73/gobs/assets/84891329/9daf11da-8d68-49ce-ae02-8d0815b8f9d1)
+![arch](./assets/arch.png)
 - TODO: test communication between pods using Docker/Kubernetes
 - TODO: visualize onto Grafana dashboards
 
