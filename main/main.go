@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/aaronchan73/gobs"
 	"math/rand"
 	"sync"
 	"time"
+
+	"github.com/aaronchan73/gobs"
 )
 
 var counter *gobs.Counter = gobs.CreateCounter()
