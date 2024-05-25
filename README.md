@@ -1,19 +1,24 @@
 # Gobs
 Lightweight and minimalist observability for distributed systems.
 
-## Logs
+## Library
+- Found in `/lib`
+### Logs
 - Found in `logs.go`
-- Currently outputs to stdout
+- Outputs to collector via HTTP
 
-## Metrics
+### Metrics
 - Found in `metrics.go`
-- Currently outputs to stdout
+- Outputs to collector via HTTP
 - Supports counters, gauges, and histograms
 
-## Traces
+### Traces
 - Found in `traces.go`
-- Currently outputs to stdout
+- Outputs to collector via HTTP
 - Supports spans and traces
+
+## Collector
+- HTTP server for data ingestion from clients
 
 ## Testing
 ![arch](./assets/arch.png)
