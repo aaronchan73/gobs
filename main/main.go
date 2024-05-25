@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gobs"
+	"github.com/aaronchan73/gobs"
 	"math/rand"
 	"sync"
 	"time"
