@@ -2,32 +2,31 @@ package gobs
 
 import (
 	"fmt"
-	"sync"
 )
 
 // Counter is a monotonically increasing count
 type Counter struct {
-	count int64
-	lock  *sync.RWMutex
+	ID    int64 `json:"id"`
+	Count int64 `json:"count"`
 }
 
 // Gauge is a single numerical value
 type Gauge struct {
-	value int64
-	lock  *sync.RWMutex
+	ID    int64 `json:"id"`
+	Value int64 `json:"value"`
 }
 
 // Histogram is a range of values
 type Histogram struct {
-	buckets map[int64]int64
-	lock    *sync.RWMutex
+	ID      int64           `json:"id"`
+	Buckets map[int64]int64 `json:"buckets"`
 }
 
 // CreateCounter creates a Counter
-func CreateCounter() *Counter {
+func CreateCounter(id int64) *Counter {
 	counter := Counter{
+		id,
 		0,
-		&sync.RWMutex{},
 	}
 
 	return &counter
@@ -35,25 +34,19 @@ func CreateCounter() *Counter {
 
 // IncrementCounter increments an existing Counter
 func (counter *Counter) IncrementCounter() {
-	counter.lock.Lock()
-	defer counter.lock.Unlock()
-
-	counter.count++
+	counter.Count++
 }
 
 // PrintCounter prints an existing Counter
 func (counter *Counter) PrintCounter() {
-	counter.lock.RLock()
-	defer counter.lock.RUnlock()
-
-	fmt.Println(counter.count)
+	fmt.Println(counter.Count)
 }
 
 // CreateGauge creates a Gauge
-func CreateGauge() *Gauge {
+func CreateGauge(id int64) *Gauge {
 	gauge := Gauge{
+		id,
 		0,
-		&sync.RWMutex{},
 	}
 
 	return &gauge
@@ -61,25 +54,19 @@ func CreateGauge() *Gauge {
 
 // UpdateGauge updates an existing Counter
 func (gauge *Gauge) UpdateGauge(value int64) {
-	gauge.lock.Lock()
-	defer gauge.lock.Unlock()
-
-	gauge.value = value
+	gauge.Value = value
 }
 
 // PrintGauge prints an existing Gauge
 func (gauge *Gauge) PrintGauge() {
-	gauge.lock.RLock()
-	defer gauge.lock.RUnlock()
-
-	fmt.Println(gauge.value)
+	fmt.Println(gauge.Value)
 }
 
 // CreateHistogram creates a Histogram
-func CreateHistogram() *Histogram {
+func CreateHistogram(id int64) *Histogram {
 	histogram := Histogram{
+		id,
 		make(map[int64]int64),
-		&sync.RWMutex{},
 	}
 
 	return &histogram
@@ -87,23 +74,17 @@ func CreateHistogram() *Histogram {
 
 // UpdateHistogram updates an existing Histogram
 func (histogram *Histogram) UpdateHistogram(value int64) {
-	histogram.lock.Lock()
-	defer histogram.lock.Unlock()
-
-	if count, ok := histogram.buckets[value]; ok {
-		histogram.buckets[value] = count + 1
+	if count, ok := histogram.Buckets[value]; ok {
+		histogram.Buckets[value] = count + 1
 	} else {
-		histogram.buckets[value] = 1
+		histogram.Buckets[value] = 1
 	}
 }
 
 // PrintHistogram prints an existing Histogram
 func (histogram *Histogram) PrintHistogram() {
-	histogram.lock.RLock()
-	defer histogram.lock.RUnlock()
-
-	for value, count := range histogram.buckets {
-		bucket := fmt.Sprintf("%d: %d\n", value, count)
+	for value, count := range histogram.Buckets {
+		bucket := fmt.Sprintf("%d: %d", value, count)
 		fmt.Println(bucket)
 	}
 }

@@ -2,25 +2,26 @@ package gobs
 
 import (
 	"fmt"
-	"sync"
 	"time"
 )
 
 // Span is a single event with a duration
 type Span struct {
-	duration time.Duration
-	event    string
+	ID       int64         `json:"id"`
+	Duration time.Duration `json:"duration"`
+	Event    string        `json:"event"`
 }
 
 // Trace is a collection of Spans
 type Trace struct {
-	spans []Span
-	lock  *sync.RWMutex
+	ID    int64  `json:"id"`
+	Spans []Span `json:"spans"`
 }
 
 // CreateSpan creates a Span
-func CreateSpan(event string, duration time.Duration) Span {
+func CreateSpan(id int64, event string, duration time.Duration) Span {
 	span := Span{
+		id,
 		duration,
 		event,
 	}
@@ -30,15 +31,15 @@ func CreateSpan(event string, duration time.Duration) Span {
 
 // PrintSpan prints a Span
 func PrintSpan(span Span) {
-	spanString := fmt.Sprintf("%s: %d ms\n", span.event, span.duration.Milliseconds())
+	spanString := fmt.Sprintf("%s: %d ms", span.Event, span.Duration.Milliseconds())
 	fmt.Println(spanString)
 }
 
 // CreateTrace creates a Trace
-func CreateTrace() *Trace {
+func CreateTrace(id int64) *Trace {
 	trace := Trace{
+		id,
 		make([]Span, 0),
-		&sync.RWMutex{},
 	}
 
 	return &trace
@@ -46,18 +47,12 @@ func CreateTrace() *Trace {
 
 // UpdateTrace updates an existing Trace
 func (trace *Trace) UpdateTrace(span Span) {
-	trace.lock.Lock()
-	defer trace.lock.Unlock()
-
-	trace.spans = append(trace.spans, span)
+	trace.Spans = append(trace.Spans, span)
 }
 
 // PrintTrace prints an existing Trace
 func (trace *Trace) PrintTrace() {
-	trace.lock.RLock()
-	defer trace.lock.RUnlock()
-
-	for _, span := range trace.spans {
+	for _, span := range trace.Spans {
 		PrintSpan(span)
 	}
 }

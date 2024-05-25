@@ -7,13 +7,15 @@ import (
 
 // Log is a single message with a timestamp
 type Log struct {
-	timestamp time.Time
-	message   string
+	ID        int64     `json:"id"`
+	Timestamp time.Time `json:"timestamp"`
+	Message   string    `json:"message"`
 }
 
 // CreateLog creates a Log
-func CreateLog(message string) Log {
+func CreateLog(id int64, message string) Log {
 	log := Log{
+		id,
 		time.Now(),
 		message,
 	}
@@ -23,6 +25,6 @@ func CreateLog(message string) Log {
 
 // PrintLog prints a log
 func PrintLog(log Log) {
-	logString := log.timestamp.Format(time.TimeOnly) + log.message
+	logString := "[" + log.Timestamp.Format(time.TimeOnly) + "] " + log.Message
 	fmt.Println(logString)
 }

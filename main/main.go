@@ -8,7 +8,7 @@ import (
 	"github.com/aaronchan73/gobs"
 )
 
-var counter *gobs.Counter = gobs.CreateCounter()
+var counter *gobs.Counter = gobs.CreateCounter(0)
 
 func main() {
 	var wg sync.WaitGroup
