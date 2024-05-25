@@ -2,7 +2,8 @@
 Lightweight and minimalist observability for distributed systems.
 
 ## Library
-- Found in `/lib`
+Found in `/lib`
+
 ### Logs
 - Found in `logs.go`
 - Outputs to collector via HTTP
@@ -18,13 +19,20 @@ Lightweight and minimalist observability for distributed systems.
 - Supports spans and traces
 
 ## Collector
-- HTTP server for data ingestion from clients
+HTTP server for data ingestion from clients
+
+### Endpoints
+- `/logs` - update Logs from given JSON
+- `/counters` - update Counters from given JSON
+- `/gauges` - update Gauges from given JSON
+- `/histograms` - update Histograms from given JSON
+- `/traces` - update Traces from given JSON
 
 ## Testing
+Manual tests done within `/main` and using Postman
+
+### Architecture
 ![arch](./assets/arch.png)
-- TODO: replace output to use HTTP/gRPC
-- TODO: test communication between pods using Docker/Kubernetes
-- TODO: visualize onto Grafana dashboards
 
 ## Resources
 - https://www.splunk.com/en_us/blog/learn/observability.html
