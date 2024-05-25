@@ -17,6 +17,7 @@ Lightweight and minimalist observability for distributed systems.
 
 ## Testing
 ![arch](./assets/arch.png)
+- TODO: replace output to use HTTP/gRPC
 - TODO: test communication between pods using Docker/Kubernetes
 - TODO: visualize onto Grafana dashboards
 
