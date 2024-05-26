@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/aaronchan73/gobs"
 )
@@ -18,6 +19,8 @@ type Collector struct {
 	traces     map[int64]gobs.Trace
 	lock       *sync.RWMutex
 }
+
+const EXPORT_INTERVAL = 10
 
 var collector Collector
 
@@ -106,6 +109,35 @@ func updateTraces(w http.ResponseWriter, r *http.Request) {
 	collector.traces[trace.ID] = trace
 }
 
+// runExport exports collector data every EXPORT_INTERVAL seconds
+func runExport(collector *Collector) {
+	for {
+		collector.lock.RLock()
+		for _, log := range collector.logs {
+			gobs.PrintLog(log)
+		}
+
+		for _, counter := range collector.counters {
+			counter.PrintCounter()
+		}
+
+		for _, gauge := range collector.gauges {
+			gauge.PrintGauge()
+		}
+
+		for _, histogram := range collector.histograms {
+			histogram.PrintHistogram()
+		}
+
+		for _, trace := range collector.traces {
+			trace.PrintTrace()
+		}
+		collector.lock.RUnlock()
+
+		time.Sleep(EXPORT_INTERVAL * time.Second)
+	}
+}
+
 func main() {
 	collector = Collector{
 		make(map[int64]gobs.Log),
@@ -115,6 +147,8 @@ func main() {
 		make(map[int64]gobs.Trace),
 		&sync.RWMutex{},
 	}
+
+	go runExport(&collector)
 
 	http.HandleFunc("/logs", updateLogs)
 	http.HandleFunc("/counters", updateCounters)
