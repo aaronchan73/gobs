@@ -1,7 +1,11 @@
 package gobs
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
 	"time"
 )
 
@@ -48,6 +52,17 @@ func CreateTrace(id int64) *Trace {
 // UpdateTrace updates an existing Trace
 func (trace *Trace) UpdateTrace(span Span) {
 	trace.Spans = append(trace.Spans, span)
+
+	jsonBody, _ := json.Marshal(map[string]interface{}{
+		"id":      trace.ID,
+		"buckets": trace.Spans,
+	})
+	responseBody := bytes.NewBuffer(jsonBody)
+
+	requestURL := os.Getenv("COLLECTOR_ADDRESS") + "/traces"
+	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
+		panic(err)
+	}
 }
 
 // PrintTrace prints an existing Trace

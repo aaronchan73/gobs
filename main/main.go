@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"math/rand"
-	"net/http"
+	"os"
 	"sync"
 	"time"
 
@@ -15,6 +13,8 @@ var counter *gobs.Counter = gobs.CreateCounter(0)
 
 func main() {
 	var wg sync.WaitGroup
+
+	os.Setenv("COLLECTOR_ADDRESS", "http://localhost:8080")
 
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
@@ -27,15 +27,4 @@ func main() {
 	}
 
 	wg.Wait()
-
-	postBody, _ := json.Marshal(map[string]int64{
-		"id":    counter.ID,
-		"count": counter.Count,
-	})
-	responseBody := bytes.NewBuffer(postBody)
-
-	requestURL := "http://localhost:8080/counters"
-	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
-		panic(err)
-	}
 }

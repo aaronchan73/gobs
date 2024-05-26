@@ -1,7 +1,11 @@
 package gobs
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
 	"time"
 )
 
@@ -21,6 +25,21 @@ func CreateLog(id int64, message string) Log {
 	}
 
 	return log
+}
+
+// UpdateLog updates an existing log
+func UpdateLog(log Log) {
+	jsonBody, _ := json.Marshal(map[string]interface{}{
+		"id":        log.ID,
+		"timestamp": log.Timestamp,
+		"message":   log.Message,
+	})
+	responseBody := bytes.NewBuffer(jsonBody)
+
+	requestURL := os.Getenv("COLLECTOR_ADDRESS") + "/logs"
+	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
+		panic(err)
+	}
 }
 
 // PrintLog prints a log

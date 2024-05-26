@@ -1,7 +1,11 @@
 package gobs
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
 )
 
 // Counter is a monotonically increasing count
@@ -35,6 +39,17 @@ func CreateCounter(id int64) *Counter {
 // IncrementCounter increments an existing Counter
 func (counter *Counter) IncrementCounter() {
 	counter.Count++
+
+	jsonBody, _ := json.Marshal(map[string]int64{
+		"id":    counter.ID,
+		"count": counter.Count,
+	})
+	responseBody := bytes.NewBuffer(jsonBody)
+
+	requestURL := os.Getenv("COLLECTOR_ADDRESS") + "/counters"
+	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
+		panic(err)
+	}
 }
 
 // PrintCounter prints an existing Counter
@@ -55,6 +70,17 @@ func CreateGauge(id int64) *Gauge {
 // UpdateGauge updates an existing Counter
 func (gauge *Gauge) UpdateGauge(value int64) {
 	gauge.Value = value
+
+	jsonBody, _ := json.Marshal(map[string]int64{
+		"id":    gauge.ID,
+		"value": gauge.Value,
+	})
+	responseBody := bytes.NewBuffer(jsonBody)
+
+	requestURL := os.Getenv("COLLECTOR_ADDRESS") + "/gauges"
+	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
+		panic(err)
+	}
 }
 
 // PrintGauge prints an existing Gauge
@@ -78,6 +104,17 @@ func (histogram *Histogram) UpdateHistogram(value int64) {
 		histogram.Buckets[value] = count + 1
 	} else {
 		histogram.Buckets[value] = 1
+	}
+
+	jsonBody, _ := json.Marshal(map[string]interface{}{
+		"id":      histogram.ID,
+		"buckets": histogram.Buckets,
+	})
+	responseBody := bytes.NewBuffer(jsonBody)
+
+	requestURL := os.Getenv("COLLECTOR_ADDRESS") + "/histograms"
+	if _, err := http.Post(requestURL, "application/json", responseBody); err != nil {
+		panic(err)
 	}
 }
 
