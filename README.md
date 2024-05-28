@@ -1,8 +1,8 @@
 # Gobs
 Lightweight and minimalist observability for distributed systems.
 
-## Library
-Found in `/lib`
+## Library (`/lib`)
+APIs that cover the three pillars of observability!
 
 ### Logs
 - Found in `logs.go`
@@ -18,8 +18,8 @@ Found in `/lib`
 - Outputs to collector via HTTP
 - Supports spans and traces
 
-## Collector
-HTTP server for data ingestion from clients
+## Collector (`/collector`)
+HTTP server for data ingestion from clients.
 
 ### Running on Docker
 1. Build container: `docker build -f Dockerfile.collector -t gobs-collector .`
@@ -32,8 +32,8 @@ HTTP server for data ingestion from clients
 - `/histograms` - update Histograms from given JSON
 - `/traces` - update Traces from given JSON
 
-## Testing
-Manual tests done within `/main` and using Postman
+## Testing (`/main`)
+Manual tests done inside simulated environment (K8s) and using Postman.
 
 ### Architecture
 ![arch](./assets/arch.png)
