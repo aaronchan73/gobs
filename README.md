@@ -21,6 +21,10 @@ Found in `/lib`
 ## Collector
 HTTP server for data ingestion from clients
 
+### Running on Docker
+- Build container: `docker build -t collector .`
+- Run container: `docker run -d -p 8080:8080 collector`
+
 ### Endpoints
 - `/logs` - update Logs from given JSON
 - `/counters` - update Counters from given JSON
