@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aaronchan73/gobs"
+	gobs "github.com/aaronchan73/gobs/lib"
 )
 
 // Collector is the ingestion of data

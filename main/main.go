@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aaronchan73/gobs"
+	gobs "github.com/aaronchan73/gobs/lib"
 )
 
 const CLIENT_ID = 0
