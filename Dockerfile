@@ -5,4 +5,5 @@ RUN go mod download
 COPY . .
 RUN go build -o collector ./collector
 RUN chmod +x collector
+EXPOSE 8080
 ENTRYPOINT ["./collector/collector"]
