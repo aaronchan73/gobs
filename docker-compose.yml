@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  collector:
+    build:
+      context: .
+      dockerfile: Dockerfile.collector
+    container_name: collector
+
+  main:
+    build:
+      context: .
+      dockerfile: Dockerfile.main
+    container_name: main
