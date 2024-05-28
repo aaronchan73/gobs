@@ -22,8 +22,8 @@ Found in `/lib`
 HTTP server for data ingestion from clients
 
 ### Running on Docker
-- Build container: `docker build -t collector .`
-- Run container: `docker run -d -p 8080:8080 collector`
+1. Build container: `docker build -f Dockerfile.collector -t gobs-collector .`
+2. Run container: `docker run -d -p 8080:8080 gobs-collector`
 
 ### Endpoints
 - `/logs` - update Logs from given JSON
