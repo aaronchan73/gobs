@@ -38,6 +38,21 @@ Manual tests done within `/main` and using Postman
 ### Architecture
 ![arch](./assets/arch.png)
 
+### Running on Kubernetes
+1. Install minikube and Docker
+2. Load containers into minikube \
+   a. Start minikube: `minikube start` \
+   b. Load images: `eval $(minikube docker-env)`
+4. Build containers for collector and main \
+   a. Build collector's container: `docker build -f Dockerfile.collector -t gobs-collector .` \
+   b. Build main's container: `docker build -f Dockerfile.main -t gobs-main .` \
+   c. Verify using `minikube ssh` and `docker images`
+5. Apply deployment and service files \
+   a. Apply collector deployment: `kubectl apply -f k8s/collector-deployment.yaml` \
+   b. Apply collector service: `kubectl apply -f k8s/collector-service.yaml` \
+   c. Apply main deployment: `kubectl apply -f k8s/main-deployment.yaml` \
+   d. Apply main service: `kubectl apply -f k8s/main-service.yaml`
+
 ## Resources
 - https://www.splunk.com/en_us/blog/learn/observability.html
 - https://www.datadoghq.com/three-pillars-of-observability/
