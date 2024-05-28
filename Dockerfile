@@ -5,4 +5,4 @@ RUN go mod download
 COPY . .
 RUN go build -o collector ./collector
 RUN chmod +x collector
-ENTRYPOINT ["./collector"]
+ENTRYPOINT ["./collector/collector"]
