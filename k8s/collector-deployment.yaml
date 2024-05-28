@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gobs
+  name: collector-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gobs
+      app: collector
   template:
     metadata:
       labels:
-        app: gobs
+        app: collector
     spec:
       containers:
       - name: collector
-        image: collector
+        image: gobs-collector
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

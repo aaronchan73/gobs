@@ -19,7 +19,7 @@ var trace *gobs.Trace = gobs.CreateTrace(CLIENT_ID)
 func main() {
 	var wg sync.WaitGroup
 
-	os.Setenv("COLLECTOR_ADDRESS", "http://localhost:8080")
+	os.Setenv("COLLECTOR_ADDRESS", "http://collector-service.default.svc.cluster.local:8080")
 
 	log := gobs.CreateLog(0, "Running main function")
 	gobs.UpdateLog(log)
