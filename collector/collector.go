@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 
@@ -132,10 +133,51 @@ func runExport(collector *Collector) {
 		for _, trace := range collector.traces {
 			trace.PrintTrace()
 		}
+
+		data := map[string]interface{}{
+			"logs":       collector.logs,
+			"counters":   collector.counters,
+			"gauges":     collector.gauges,
+			"histograms": collector.histograms,
+			"traces":     collector.traces,
+		}
+
+		jsonData, err := json.Marshal(data)
+		if err != nil {
+			panic(err)
+		}
+
+		StoreJSONData(jsonData)
+
 		collector.lock.RUnlock()
 
 		time.Sleep(EXPORT_INTERVAL * time.Second)
 	}
+}
+
+// exportData is the API handler for JSON data
+func exportData(w http.ResponseWriter, r *http.Request) {
+	data := GetJSONData()
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(data)
+}
+
+// StoreJSONData stores collector data into a JSON
+func StoreJSONData(data []byte) {
+	err := os.WriteFile("data.json", data, 0644)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// GetJSONData retrieves JSON data from a file
+func GetJSONData() []byte {
+	data, err := os.ReadFile("data.json")
+	if err != nil {
+		panic(err)
+	}
+	return data
 }
 
 func main() {
@@ -155,6 +197,7 @@ func main() {
 	http.HandleFunc("/gauges", updateGauges)
 	http.HandleFunc("/histograms", updateHistograms)
 	http.HandleFunc("/traces", updateTraces)
+	http.HandleFunc("/export", exportData)
 
 	http.ListenAndServe(":8080", nil)
 }
