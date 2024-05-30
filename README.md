@@ -57,6 +57,14 @@ Manual tests done inside simulated environment (K8s) and using Postman.
 7. View Grafana dashboards \
    a. Port-forward dashboards: `kubectl port-forward deployment/grafana 3000:3000`
 
+### Grafana Dashboards
+1. View dashboards on `http://localhost:3000`
+2. Create data source using JSON API
+3. Choose URL: \
+   a. Using Docker: `http://host.docker.internal:8080/export` \
+   b. Using Kubernetes: `http://collector-service.default.svc.cluster.local:8080/export`
+4. Create dashboards!
+
 ## Resources
 - https://www.splunk.com/en_us/blog/learn/observability.html
 - https://www.datadoghq.com/three-pillars-of-observability/
