@@ -51,7 +51,11 @@ Manual tests done inside simulated environment (K8s) and using Postman.
    a. Apply collector deployment: `kubectl apply -f k8s/collector-deployment.yaml` \
    b. Apply collector service: `kubectl apply -f k8s/collector-service.yaml` \
    c. Apply main deployment: `kubectl apply -f k8s/main-deployment.yaml` \
-   d. Apply main service: `kubectl apply -f k8s/main-service.yaml`
+   d. Apply main service: `kubectl apply -f k8s/main-service.yaml` \
+   e. Apply Grafana deployment: `kubectl apply -f k8s/grafana-deployment.yaml` \
+   f. Apply Grafana service: `kubectl apply -f k8s/grafana-service.yaml`
+7. View Grafana dashboards \
+   a. Port-forward dashboards: `kubectl port-forward deployment/grafana 3000:3000`
 
 ## Resources
 - https://www.splunk.com/en_us/blog/learn/observability.html
