@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"os"
 	"sync"
@@ -27,6 +28,11 @@ func main() {
 
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
+
+		log := gobs.CreateLog(0, fmt.Sprintf("Running iteration: %d", i))
+		gobs.UpdateLog(log)
+		gobs.PrintLog(log)
+
 		go func(increment int64) {
 			defer wg.Done()
 
@@ -43,6 +49,10 @@ func main() {
 	}
 
 	wg.Wait()
+
+	log = gobs.CreateLog(0, "Completed main function")
+	gobs.UpdateLog(log)
+	gobs.PrintLog(log)
 
 	counter.PrintCounter()
 	gauge.PrintGauge()
