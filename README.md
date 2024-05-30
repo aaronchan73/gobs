@@ -108,6 +108,7 @@ Manual tests done inside simulated environment (K8s) and using Postman.
       ```
 
 ### Grafana Dashboards
+![logs](./assets/grafana-logs.png)
 
 1. **View dashboards on `http://localhost:3000`**
 

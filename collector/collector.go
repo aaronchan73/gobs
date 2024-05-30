@@ -13,7 +13,7 @@ import (
 
 // Collector is the ingestion of data
 type Collector struct {
-	logs       map[int64]gobs.Log
+	logs       map[int64][]gobs.Log
 	counters   map[int64]gobs.Counter
 	gauges     map[int64]gobs.Gauge
 	histograms map[int64]gobs.Histogram
@@ -39,7 +39,7 @@ func updateLogs(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(body, &log)
 	gobs.PrintLog(log)
-	collector.logs[log.ID] = log
+	collector.logs[log.ID] = append(collector.logs[log.ID], log)
 }
 
 // updateCounters receives counters via HTTP and updates collector
@@ -114,8 +114,10 @@ func updateTraces(w http.ResponseWriter, r *http.Request) {
 func runExport(collector *Collector) {
 	for {
 		collector.lock.RLock()
-		for _, log := range collector.logs {
-			gobs.PrintLog(log)
+		for _, logs := range collector.logs {
+			for _, log := range logs {
+				gobs.PrintLog(log)
+			}
 		}
 
 		for _, counter := range collector.counters {
@@ -182,7 +184,7 @@ func GetJSONData() []byte {
 
 func main() {
 	collector = Collector{
-		make(map[int64]gobs.Log),
+		make(map[int64][]gobs.Log),
 		make(map[int64]gobs.Counter),
 		make(map[int64]gobs.Gauge),
 		make(map[int64]gobs.Histogram),
