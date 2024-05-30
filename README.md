@@ -22,7 +22,7 @@ APIs that cover the three pillars of observability!
 HTTP server for data ingestion from clients.
 
 ### Running on Docker
-1. Build container: `docker build -f Dockerfile.collector -t gobs-collector .`
+1. Build container: `docker build -f collector/Dockerfile -t gobs-collector .`
 2. Run container: `docker run -d -p 8080:8080 gobs-collector`
 
 ### Endpoints
@@ -44,8 +44,8 @@ Manual tests done inside simulated environment (K8s) and using Postman.
    a. Start minikube: `minikube start` \
    b. Load images: `eval $(minikube docker-env)`
 4. Build containers for collector and main \
-   a. Build collector's container: `docker build -f Dockerfile.collector -t gobs-collector .` \
-   b. Build main's container: `docker build -f Dockerfile.main -t gobs-main .` \
+   a. Build collector's container: `docker build -f collector/Dockerfile -t gobs-collector .` \
+   b. Build main's container: `docker build -f main/Dockerfile -t gobs-main .` \
    c. Verify using `minikube ssh` and `docker images`
 5. Apply deployment and service files \
    a. Apply collector deployment: `kubectl apply -f k8s/collector-deployment.yaml` \
