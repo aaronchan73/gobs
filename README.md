@@ -22,8 +22,16 @@ APIs that cover the three pillars of observability!
 HTTP server for data ingestion from clients.
 
 ### Running on Docker
-1. Build container: `docker build -f collector/Dockerfile -t gobs-collector .`
-2. Run container: `docker run -d -p 8080:8080 gobs-collector`
+
+1. **Build container:**
+    ```sh
+    docker build -f collector/Dockerfile -t gobs-collector .
+    ```
+
+2. **Run container:**
+    ```sh
+    docker run -d -p 8080:8080 gobs-collector
+    ```
 
 ### Endpoints
 - `/logs` - update Logs from given JSON
@@ -39,31 +47,83 @@ Manual tests done inside simulated environment (K8s) and using Postman.
 ![arch](./assets/arch.png)
 
 ### Running on Kubernetes
-1. Install minikube and Docker
-2. Load containers into minikube \
-   a. Start minikube: `minikube start` \
-   b. Load images: `eval $(minikube docker-env)`
-4. Build containers for collector and main \
-   a. Build collector's container: `docker build -f collector/Dockerfile -t gobs-collector .` \
-   b. Build main's container: `docker build -f main/Dockerfile -t gobs-main .` \
-   c. Verify using `minikube ssh` and `docker images`
-5. Apply deployment and service files \
-   a. Apply collector deployment: `kubectl apply -f k8s/collector-deployment.yaml` \
-   b. Apply collector service: `kubectl apply -f k8s/collector-service.yaml` \
-   c. Apply main deployment: `kubectl apply -f k8s/main-deployment.yaml` \
-   d. Apply main service: `kubectl apply -f k8s/main-service.yaml` \
-   e. Apply Grafana deployment: `kubectl apply -f k8s/grafana-deployment.yaml` \
-   f. Apply Grafana service: `kubectl apply -f k8s/grafana-service.yaml`
-7. View Grafana dashboards \
-   a. Port-forward dashboards: `kubectl port-forward deployment/grafana 3000:3000`
+
+1. **Install minikube and Docker**
+
+2. **Load containers into minikube**
+    - Start minikube: 
+      ```sh
+      minikube start
+      ```
+    - Load images: 
+      ```sh
+      eval $(minikube docker-env)
+      ```
+
+3. **Build containers for collector and main**
+    - Build collector's container: 
+      ```sh
+      docker build -f collector/Dockerfile -t gobs-collector .
+      ```
+    - Build main's container: 
+      ```sh
+      docker build -f main/Dockerfile -t gobs-main .
+      ```
+    - Verify using:
+      ```sh
+      minikube ssh
+      docker images
+      ```
+
+4. **Apply deployment and service files**
+    - Apply collector deployment: 
+      ```sh
+      kubectl apply -f k8s/collector-deployment.yaml
+      ```
+    - Apply collector service: 
+      ```sh
+      kubectl apply -f k8s/collector-service.yaml
+      ```
+    - Apply main deployment: 
+      ```sh
+      kubectl apply -f k8s/main-deployment.yaml
+      ```
+    - Apply main service: 
+      ```sh
+      kubectl apply -f k8s/main-service.yaml
+      ```
+    - Apply Grafana deployment: 
+      ```sh
+      kubectl apply -f k8s/grafana-deployment.yaml
+      ```
+    - Apply Grafana service: 
+      ```sh
+      kubectl apply -f k8s/grafana-service.yaml
+      ```
+
+5. **View Grafana dashboards**
+    - Port-forward dashboards: 
+      ```sh
+      kubectl port-forward deployment/grafana 3000:3000
+      ```
 
 ### Grafana Dashboards
-1. View dashboards on `http://localhost:3000`
-2. Create data source using JSON API
-3. Choose URL: \
-   a. Using Docker: `http://host.docker.internal:8080/export` \
-   b. Using Kubernetes: `http://collector-service.default.svc.cluster.local:8080/export`
-4. Create dashboards!
+
+1. **View dashboards on `http://localhost:3000`**
+
+2. **Create data source using JSON API**
+
+3. **Choose URL:**
+    - Using Docker:
+      ```sh
+      http://host.docker.internal:8080/export
+      ```
+    - Using Kubernetes:
+      ```sh
+      http://collector-service.default.svc.cluster.local:8080/export
+      ```
+
+4. **Create dashboards!**
 
 ## Resources
 - https://www.splunk.com/en_us/blog/learn/observability.html
